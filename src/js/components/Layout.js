@@ -32,22 +32,21 @@ export default class Layout extends React.Component {
 	render() {
 
 		const { fetching, stocks } = this.props;
-
+		const loadingVisibility = fetching ? 'visible' : 'hidden'; 
 		const results = stocks.map((stock, i)=>{
 			return <Cell displayName={stock.companyName} subTitle={stock.stockName} key={i}/>
 		});
 
 		return (
-			<div class="container" style={{backgroundColor:'white'}}>
+			<div class="container">
     			<h1>Stock Lookup</h1>
     			<p class="lead">Look up any stock!!!</p>
-    			<div class='row' style={{backgroundColor:'white'}}>
-    				<div class='col-sm-6' style={{backgroundColor:'white'}}><input class='form-control' id='layout_input' placeholder="Stock Name" onChange={this.inputChanged.bind(this)}></input></div>
-      				<div class='col-sm-3'><button class='btn' onClick={this.searchClicked.bind(this)}>Search!</button></div>
-      				<div class='col-sm-3' style={{backgroundColor:'white'}}><h3>Loading: {fetching ? "Yeap" : "Nope"}</h3></div>
+    			<div class='row'  style={{display:'flex',alignItems:'center'}}>
+    				<div class='col-sm-6'><input class='form-control' id='layout_input' placeholder="Stock Name" onChange={this.inputChanged.bind(this)}></input></div>
+      				<div class='col-sm-3'><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style={{visibility:loadingVisibility}}/></div>
     			</div>
     			<div class='row'>
-    				<div class='col-sm-12' style={{backgroundColor:'white'}}>{results}</div>
+    				<div class='col-sm-6'>{results}</div>
     			</div>
     		</div>
 		);
