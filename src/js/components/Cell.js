@@ -4,11 +4,12 @@ export default class Cell extends React.Component {
 
 	render() {
 
-		const { displayName } = this.props;
+		const { displayName, subTitle } = this.props;
 
 		return (
-			<div>
-				<h3>{displayName}</h3>
+			<div class='row' style={{display:'flex',alignItems:'center'}}>
+				<div class='col-sm-6' style={{display:'flex',alignItems:'center'}}><h4>{displayName}</h4></div>
+				<div class='col-sm-2'><h4 style={{color:'grey'}}>{subTitle}</h4></div>
 			</div>
 		);
 	}

@@ -34,7 +34,7 @@ export default class Layout extends React.Component {
 		const { fetching, stocks } = this.props;
 
 		const results = stocks.map((stock, i)=>{
-			return <Cell displayName={stock.companyName} key={i}/>
+			return <Cell displayName={stock.companyName} subTitle={stock.stockName} key={i}/>
 		});
 
 		return (
