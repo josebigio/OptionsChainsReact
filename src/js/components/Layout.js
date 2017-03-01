@@ -1,5 +1,6 @@
 import React from 'react';
 import Cell from './Cell';
+import Graph from './Graph'
 import { lookupStocks } from '../actions/stockActions'
 import { connect } from 'react-redux';
 
@@ -47,6 +48,7 @@ export default class Layout extends React.Component {
     			</div>
     			<div class='row'>
     				<div class='col-sm-6'>{results}</div>
+    				<div class='col-sm-6' style={{backgroundColor:'red'}}><Graph/></div>
     			</div>
     		</div>
 		);
