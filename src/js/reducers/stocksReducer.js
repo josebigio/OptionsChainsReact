@@ -1,6 +1,7 @@
 export default function reducer(state={
     stocks: [],
     fetching: false,
+    showModal: false,
     error: null,
   }, action) {
 

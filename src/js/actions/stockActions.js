@@ -21,20 +21,26 @@ export function lookupStocks(name) {
 	}
 };
 
-export function displayStockData(name) {
+export function stockSelected(name) {
 	console.log('displayStockData ' + name);
 	return function(dispatch) {
 		dispatch({type:'FETCHING_STOCK_DATA'});
 		if(name === '') {
-			dispatch({type:'FOUND_STOCKS_SUCCESS',payload:[]});
+			dispatch({type:'FOUND_STOCKS_SUCCESS',payload:{name:name,apiResponce:[]}});
 		}
 		else {
 			axios.get(stockDataLookupUrl,{params:{stock_name:name}})
 				.then((response)=>{
-					dispatch({type:'FOUND_STOCK_DATA_SUCCESS',payload:response.data.data});
+					dispatch({type:'FOUND_STOCK_DATA_SUCCESS',payload:{name:name,apiResponce:response.data.data}});
 				}).catch((error)=>{
-					dispatch({type:'FOUND_STOCK_DATA_ERROR',payload:error});
+					dispatch({type:'FOUND_STOCK_DATA_ERROR',payload:{name:name,apiResponce:error}});
 				});
 		}	
 	}
 };
+
+export function modalDismissed() {
+	return function(dispatch) {
+		dispatch({type:'MODAL_DISMISSED'});
+	}
+}

@@ -1,15 +1,17 @@
 import React from 'react';
 import Cell from './Cell';
 import Graph from './Graph'
-import { lookupStocks, displayStockData } from '../actions/stockActions'
+import { lookupStocks, stockSelected } from '../actions/stockActions'
 import { connect } from 'react-redux';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 
 
 @connect((store)=>{
 	return {
 		stocks:store.stocksReducer.stocks,
 		fetching:store.stocksReducer.fetching,
-		error:store.stocksReducer.error
+		error:store.stocksReducer.error,
+		showModal:store.stocksReducer.showModal
 	};
 })
 export default class Layout extends React.Component {
@@ -32,7 +34,7 @@ export default class Layout extends React.Component {
 
 	onStockSelected(stockName) {
 		console.log('onStockSelected ' + stockName);
-		this.props.dispatch(displayStockData(stockName));
+		this.props.dispatch(stockSelected(stockName));
 	}
 
 	render() {
@@ -44,18 +46,17 @@ export default class Layout extends React.Component {
 		});
 
 		return (
-			<div class="container">
+			<Grid>
     			<h1>Stock Lookup</h1>
-    			<p class="lead">Look up any stock!!!</p>
-    			<div class='row'  style={{display:'flex',alignItems:'center'}}>
-    				<div class='col-sm-6'><input class='form-control' id='layout_input' placeholder="Stock Name" onChange={this.inputChanged.bind(this)}></input></div>
-      				<div class='col-sm-3'><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style={{visibility:loadingVisibility}}/></div>
-    			</div>
-    			<div class='row'>
-    				<div class='col-sm-6'>{results}</div>
-    				<div class='col-sm-6' style={{backgroundColor:'red'}}><Graph/></div>
-    			</div>
-    		</div>
+    			<Row className='show-grid'>
+    				<Col sm={9}><input class='form-control' id='layout_input' placeholder="Stock Name" onChange={this.inputChanged.bind(this)}></input></Col>
+      				<Col sm={3}><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style={{visibility:loadingVisibility}}/></Col>
+    			</Row>
+    			<Row>
+    				<Col sm={12}>{results}</Col>
+    				<Col sm={12}><Graph/></Col>
+    			</Row>
+    		</Grid>
 		);
 	}
 
