@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const requestURL = 'http://options-chain.herokuapp.com/api/look_up';
-
+const stockLookupUrl = 'http://options-chain.herokuapp.com/api/look_up';
+// const stockDataLookupUrl = 'http://localhost:8183/api/option_chains';
+const stockDataLookupUrl = 'http://options-chain.herokuapp.com/api/option_chains';
 export function lookupStocks(name) {
 	console.log('lookupStocks');
 	return function(dispatch) {
@@ -10,11 +11,29 @@ export function lookupStocks(name) {
 			dispatch({type:'FOUND_STOCKS_SUCCESS',payload:[]});
 		}
 		else {
-			axios.get(requestURL,{params:{name:name}})
+			axios.get(stockLookupUrl,{params:{name:name}})
 				.then((response)=>{
 					dispatch({type:'FOUND_STOCKS_SUCCESS',payload:response.data.data});
 				}).catch((error)=>{
 					dispatch({type:'FOUND_STOCKS_ERROR',payload:error});
+				});
+		}	
+	}
+};
+
+export function displayStockData(name) {
+	console.log('displayStockData ' + name);
+	return function(dispatch) {
+		dispatch({type:'FETCHING_STOCK_DATA'});
+		if(name === '') {
+			dispatch({type:'FOUND_STOCKS_SUCCESS',payload:[]});
+		}
+		else {
+			axios.get(stockDataLookupUrl,{params:{stock_name:name}})
+				.then((response)=>{
+					dispatch({type:'FOUND_STOCK_DATA_SUCCESS',payload:response.data.data});
+				}).catch((error)=>{
+					dispatch({type:'FOUND_STOCK_DATA_ERROR',payload:error});
 				});
 		}	
 	}

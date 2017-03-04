@@ -1,7 +1,7 @@
 import React from 'react';
 import Cell from './Cell';
 import Graph from './Graph'
-import { lookupStocks } from '../actions/stockActions'
+import { lookupStocks, displayStockData } from '../actions/stockActions'
 import { connect } from 'react-redux';
 
 
@@ -30,12 +30,17 @@ export default class Layout extends React.Component {
 		this.props.dispatch(lookupStocks(input));
 	}
 
+	onStockSelected(stockName) {
+		console.log('onStockSelected ' + stockName);
+		this.props.dispatch(displayStockData(stockName));
+	}
+
 	render() {
 
 		const { fetching, stocks } = this.props;
 		const loadingVisibility = fetching ? 'visible' : 'hidden'; 
 		const results = stocks.map((stock, i)=>{
-			return <Cell displayName={stock.companyName} subTitle={stock.stockName} key={i}/>
+			return <Cell displayName={stock.companyName} subTitle={stock.stockName} key={i} onStockSelected={this.onStockSelected.bind(this)}/>
 		});
 
 		return (
